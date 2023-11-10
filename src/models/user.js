@@ -42,7 +42,12 @@ const userSchema = Schema(
     },
     role: {
       type: String,
-      default: 'guest',
+      /*
+      * Parameter default dihilangkan agar
+      * bisa menciptakan user baru dengan role "superadmin"
+      */
+
+      // default: 'guest',
       enum: ['guest', 'admin', 'superadmin'],
     },
 

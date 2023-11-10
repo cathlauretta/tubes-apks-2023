@@ -8,8 +8,14 @@ const router = new express.Router();
 // Create a user
 router.post('/users', async (req, res) => {
   try {
-    const {role} = req.body;
-    if (role) throw new Error('you cannot set role property.');
+    /*
+    * Hilangkan 2 baris pertama untuk
+    * memastikan tidak ada pengecekan role
+    * terhadap user yang dibuat (bisa menjadi superadmin)
+    */
+
+    // const {role} = req.body;
+    // if (role) throw new Error('you cannot set role property.');
     const user = new User(req.body);
     await user.save();
     const token = await user.generateAuthToken();
