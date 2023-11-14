@@ -55,6 +55,27 @@ services:
         reservations:
           cpus: "0.5"
           memory: 512M
+  k6:
+    image: loadimpact/k6
+    restart: unless-stopped
+    volumes:
+      - .:/scripts
+    command: run /scripts/tests/load.js
+    depends_on:
+      - app
+    environment:
+      - K6_HOST=http://app:${APP_PORT}
+      - K6_VUS=10
+      - K6_DURATION=10s
+      - K6_RPS=10
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024M
+        reservations:
+          cpus: "0.5"
+          memory: 512M
 
 volumes:
   db:
