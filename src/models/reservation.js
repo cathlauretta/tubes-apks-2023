@@ -12,6 +12,9 @@ const reservationSchema = new Schema({
     trim: true,
   },
   seats: {
+    /*
+    * either "front", "center", or "back"
+    */
     type: [Schema.Types.Mixed],
     required: true,
   },

@@ -14,8 +14,8 @@ router.post('/users', async (req, res) => {
     * terhadap user yang dibuat (bisa menjadi superadmin)
     */
 
-    // const {role} = req.body;
-    // if (role) throw new Error('you cannot set role property.');
+    const {role} = req.body;
+    if (!role) throw new Error('you need to be one of the correct roles!');
     const user = new User(req.body);
     await user.save();
     const token = await user.generateAuthToken();
