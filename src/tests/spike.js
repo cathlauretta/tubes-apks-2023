@@ -1,19 +1,17 @@
-const http = require('k6/http');
-const path = require("path");
+// Spike.js
 
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config({ path: path.join(__dirname, "../.env") });
-}
+// Untuk badan tes yang akan diterapkan nantinya
+import {mainTest} from './main.js'
 
-const port = process.env.APP_PORT || 5000;
-
-// belum diatur sesuai jenis test
 module.exports.options = {
-    vus: 10,
-    duration: '30s',
+    stages: [
+        { duration: '2m', target: 5000 }, // selama 2 menit, pengguna akan meningkat dari 0 ke 5000 pengguna
+        { duration: '1m', target: 0 }, // 1 menit kemudian, pengguna akan menurun hingga mencapai 0 nantinya
+    ],
 };
 
-// belum diatur sesuai jenis test
-module.exports.default = function () {
-    http.get('http://localhost:'+port+'/api/users');
-};
+module.exports.default = () => {
+    // pemanggilan localhost untuk eksekusi fungsi
+    const baseUrl = 'http://localhost:5001'
+    mainTest(baseUrl)
+}
