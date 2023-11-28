@@ -1,7 +1,4 @@
 import http from "k6/http";
-import { check } from "k6";
-// const http = require("k6/http");
-// const path = require("path");
 
 // 5 kali looping selama 20 detik
 module.exports.options = {
@@ -17,7 +14,6 @@ module.exports.options = {
 
 
 module.exports.default = function () {
-  // const port = process.env.APP_PORT || 5000;
   const port = 5001;
   const baseUrl = `http://localhost:${port}`;
 

@@ -1,5 +1,3 @@
-// Load.js
-
 // untuk badan tes yang akan diterapkan nantinya
 import {mainTest} from './main.js'
 
