@@ -1,19 +1,18 @@
-const http = require('k6/http');
-const path = require("path");
+// Load.js
 
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config({ path: path.join(__dirname, "../.env") });
-}
+// untuk badan tes yang akan diterapkan nantinya
+import {mainTest} from './main.js'
 
-const port = process.env.APP_PORT || 5000;
-
-// belum diatur sesuai jenis test
 module.exports.options = {
-    vus: 10,
-    duration: '30s',
+    stages: [
+        { duration: '5m', target: 250 }, // selama 5 menit, pengguna akan meningkat dari 0 sampai 250
+        { duration: '20m', target: 250 }, // selama 20 menit, pengguna dipertahankan stagnan sebesar 250 pengguna
+        { duration: '5m', target: 0 }, // 5 menit berikutnya, pengguna akan diturunkan menjadi 0
+    ],
 };
 
-// belum diatur sesuai jenis test
-module.exports.default = function () {
-    http.get('http://localhost:'+port+'/api/users');
-};
+module.exports.default = () => {
+    // localhost yang digunakan oleh docker
+    const baseUrl = 'http://localhost:5001'
+    mainTest(baseUrl) // pemanggilan fungsi untuk diuji
+}

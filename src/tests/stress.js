@@ -1,19 +1,18 @@
-const http = require('k6/http');
-const path = require("path");
+// Stress.js
 
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config({ path: path.join(__dirname, "../.env") });
-}
+// untuk badan tes yang akan diterapkan nantinya
+import {mainTest} from './main.js'
 
-const port = process.env.APP_PORT || 5000;
-
-// belum diatur sesuai jenis test
 module.exports.options = {
-    vus: 10,
-    duration: '30s',
+    stages: [
+        { duration: '5m', target: 2000 }, // selama 5 menit, pengguna akan meningkat drastis dari 0 ke 2000
+        { duration: '30m', target: 2000 }, // 2000 pengguna dipertahankan selama 30 menit
+        { duration: '5m', target: 0 }, // 5 menit terakhir, pengguna akan terus berkurang menjadi 0
+    ],
 };
 
-// belum diatur sesuai jenis test
-module.exports.default = function () {
-    http.get('http://localhost:'+port+'/api/users');
-};
+module.exports.default = () => {
+    // pemanggilan localhost untuk penjalanan fungsi
+    const baseUrl = 'http://localhost:5001'
+    mainTest(baseUrl)
+}
